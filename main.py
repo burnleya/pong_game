@@ -1,13 +1,7 @@
-# TODO Class for Screen
-# TODO Class for Paddle
-# TODO Class for Ball
-# TODO Class for Score
-# TODO Class for Net
-#
-
 from turtle import Screen
 from paddle import Paddle
 from ball import Ball
+from score import Score
 import time
 
 screen = Screen()
@@ -20,6 +14,7 @@ screen.tracer(0)
 player_one = Paddle()
 player_two = Paddle()
 ball = Ball()
+score = Score()
 screen.listen()
 screen.onkey(player_one.move_up, "q")
 screen.onkey(player_one.move_down, "a")
@@ -31,7 +26,7 @@ game_is_on = True
 
 while game_is_on:
     screen.update()
-    time.sleep(0.1)
+    time.sleep(ball.move_speed)
     ball.move()
     if ball.ycor() > 280 or ball.ycor() < -280:
         ball.bounce_y()
@@ -41,6 +36,14 @@ while game_is_on:
 
     if ball.distance(player_two) < 50 and ball.xcor() > 340:
         ball.bounce_x()
+
+    if ball.xcor() > 450:
+        ball.reset()
+        score.player_one()
+
+    if ball.xcor() < -450:
+        ball.reset()
+        score.player_two()
 
 
 screen.exitonclick()
